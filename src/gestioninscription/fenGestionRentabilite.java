@@ -173,21 +173,21 @@ try
             {
                 
                 // Toutes les sessions
-                req = "select null, s.numero, s.libelleform, s.niveauform, s.datedebut, duree, nb_places, nb_inscrits, coutrevient ";
-                req += "from session_form s, formation f ";
-                req += "where s.libelleform = f.libelle and s.niveauform = f.niveau ";
+                req = "select libelleform, niveauform, s.datedebut, nb_places, nb_inscrits";
+                req += "from session_form ";
+//                req += "where s.libelleform = f.libelle and s.niveauform = f.niveau ";
                 // et date supérieure à la date du jour
                 btnInscription.setVisible(false); // On rend le bouton inscription non visible
             }
             else
             {
                 // Sélection des sessions "autorisées"
-                req = "select c.nom, s.numero, s.libelleform, s.niveauform, s.datedebut, duree, nb_places, nb_inscrits, coutrevient ";
-                req += "from session_form s, client c, plan_formation p, formation f ";
-                req += "where c.matricule = '" + cmbSessionAchevee.getSelectedItem() + "' ";
-                req += "and p.matricule = c.matricule and nb_places > nb_inscrits ";
-                req += "and p.libelle_form = f.libelle and p.niveau = f.niveau ";
-                req += "and s.libelleform = f.libelle and s.niveauform = f.niveau ";
+                req = "select niveauform, datedebut, nb_places, nb_inscrits";
+                req += "from session_form";
+                req += "where libelleform = '" + cmbSessionAchevee.getSelectedItem() + "' ";
+//                req += "and p.matricule = c.matricule and nb_places > nb_inscrits ";
+//                req += "and p.libelle_form = f.libelle and p.niveau = f.niveau ";
+//                req += "and s.libelleform = f.libelle and s.niveauform = f.niveau ";
                 // et date supérieure à la date du jour
                 req += "and close = 0 and effectue = 0 and s.numero Not In ";
                 req += "(Select num_session From inscription Where matricule = '" + cmbSessionAchevee.getSelectedItem() + "')";
@@ -205,10 +205,10 @@ try
             {
                 while(rs2.next())
                 {
-                    if (k==0 && cmbSessionAchevee.getSelectedIndex()!=0)
-                    {
-                        jLabel3.setText("Sessions autorisées pour : " + rs2.getString(1));
-                    }
+//                    if (k==0 && cmbSessionAchevee.getSelectedIndex()!=0)
+//                    {
+//                        jLabel3.setText("Sessions autorisées pour : " + rs2.getString(1));
+//                    }
                     // On calcule la marge et on renseigne la dernière colonne(7ème) du jTable
                     req = "Select sum(taux_horaire) as revenu_session ";
                     req += "from statut st, session_form s, client c, inscription i ";
@@ -221,7 +221,7 @@ try
                     // On renseigne le reste du jTable
                     for (j=0;j<(tableRentabilite.getColumnCount() -1);j++)
                     {
-                        tableInscription.setValueAt(rs2.getObject(j+2), k, j);
+                        tableRentabilite.setValueAt(rs2.getObject(j+2), k, j);
                     }
                     k++;
                 }
