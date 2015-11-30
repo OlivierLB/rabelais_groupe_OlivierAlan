@@ -94,9 +94,9 @@ public class FenLancement extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-//       fenSession f1 = new fenSession();
-//       f1.setSize(1200, 600);
-//       f1.setVisible(true);
+       FenSessions f1 = new FenSessions();
+       f1.setSize(1200, 600);
+       f1.setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
