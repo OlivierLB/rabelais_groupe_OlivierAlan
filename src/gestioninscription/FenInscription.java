@@ -48,7 +48,7 @@ public class FenInscription extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         btnRentabilite = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Inscription des clients aux différentes sessions");
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         addWindowListener(new java.awt.event.WindowAdapter() {

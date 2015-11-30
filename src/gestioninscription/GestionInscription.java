@@ -15,8 +15,8 @@ public class GestionInscription
     
     public static void main(String[] args)
     {
-        FenInscription f1 = new FenInscription();
-        f1.setSize(1200, 600);
+        FenLancement f1 = new FenLancement();
+        f1.setSize(189, 300);
         f1.setVisible(true);
         
     }
