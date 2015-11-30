@@ -5,7 +5,7 @@
  */
 package gestioninscription;
 
-import gestionRentabilite.*;
+import gestioninscription.gestionRentabilite.*;
 import gestioninscription.FenInscription;
 
 /**
