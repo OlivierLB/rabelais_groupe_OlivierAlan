@@ -12,7 +12,7 @@ import javax.swing.table.AbstractTableModel;
 
 public class  ModeleJTableListeSession extends AbstractTableModel
 {
-	private String[] columnNames = {"Numéro","Libellé","Niveau","Date début","Durée","Nombre places","Nombre d'inscrits","Marge actuelle"};
+	private String[] columnNames = {"Libellé","Niveau","Date début","Nombre places","Nombre d'inscrits"};
 	private Object[][] data=new Object[10][8];
 	public int getColumnCount()
 	{

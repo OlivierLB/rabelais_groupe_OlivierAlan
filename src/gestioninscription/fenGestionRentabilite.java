@@ -10,6 +10,8 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import sql.GestionBdd;
 
 /**
@@ -34,14 +36,13 @@ public class fenGestionRentabilite extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tableRentabilite = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
-        btnInscription = new javax.swing.JButton();
         cmbSessionAchevee = new javax.swing.JComboBox();
         jLabel2 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tableDeRentabilite = new javax.swing.JTable();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowActivated(java.awt.event.WindowEvent evt) {
                 formWindowActivated(evt);
@@ -51,19 +52,6 @@ public class fenGestionRentabilite extends javax.swing.JFrame {
             }
         });
 
-        tableRentabilite.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane1.setViewportView(tableRentabilite);
-
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 30)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Gestion de la rentabilite");
@@ -71,16 +59,24 @@ public class fenGestionRentabilite extends javax.swing.JFrame {
         jLabel1.setMinimumSize(new java.awt.Dimension(396, 37));
         jLabel1.setPreferredSize(new java.awt.Dimension(396, 37));
 
-        btnInscription.setText("Gestion de  l'inscription");
-        btnInscription.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnInscriptionActionPerformed(evt);
-            }
-        });
-
         cmbSessionAchevee.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jLabel2.setText("Session achevée :");
+
+        tableDeRentabilite.setModel(new ModeleJTableListeSession());
+        tableDeRentabilite.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableDeRentabiliteMouseClicked(evt);
+            }
+        });
+        tableDeRentabilite.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+            }
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+                tableDeRentabiliteInputMethodTextChanged(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tableDeRentabilite);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -89,20 +85,19 @@ public class fenGestionRentabilite extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 441, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(44, 44, 44)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 450, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(btnInscription))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel2)
                         .addGap(26, 26, 26)
                         .addComponent(cmbSessionAchevee, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(56, Short.MAX_VALUE))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 530, Short.MAX_VALUE)
+                    .addContainerGap()))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -113,21 +108,16 @@ public class fenGestionRentabilite extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cmbSessionAchevee, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnInscription, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(46, 46, 46))
+                .addContainerGap(298, Short.MAX_VALUE))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(110, 110, 110)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(111, Short.MAX_VALUE)))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnInscriptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInscriptionActionPerformed
-        FenInscription f1 = new FenInscription();
-        f1.setSize(1200, 600);
-        f1.setVisible(true);
-    }//GEN-LAST:event_btnInscriptionActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
 try
@@ -152,85 +142,51 @@ try
     }//GEN-LAST:event_formWindowOpened
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
-       renseigne();
+       try {
+           renseigne();
+       } catch (SQLException ex) {
+           Logger.getLogger(fenGestionRentabilite.class.getName()).log(Level.SEVERE, null, ex);
+       }
     }//GEN-LAST:event_formWindowActivated
 
-    private void renseigne()
+    private void tableDeRentabiliteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableDeRentabiliteMouseClicked
+        
+    }//GEN-LAST:event_tableDeRentabiliteMouseClicked
+
+    private void tableDeRentabiliteInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_tableDeRentabiliteInputMethodTextChanged
+        //
+    }//GEN-LAST:event_tableDeRentabiliteInputMethodTextChanged
+
+    private void renseigne() throws SQLException
     {
         try
         {
         // On vide le JTable
             int j, k;
             String req;
-            for(int i=0;i<tableRentabilite.getRowCount();i++)
+            for(int i=0;i<tableDeRentabilite.getRowCount();i++)
             {
-                for (j=0;j<tableRentabilite.getColumnCount();j++)
+                for (j=0;j<tableDeRentabilite.getColumnCount();j++)
 		{
-                    tableRentabilite.setValueAt(null,i,j);
+                    tableDeRentabilite.setValueAt(null,i,j);
 		}
             }
-            if (cmbSessionAchevee.getSelectedIndex()==0 || cmbSessionAchevee.getSelectedItem()== null) // Pas de client de choisi
-            {
+           
+            req = "select libelleform, niveauform, datedebut, nb_places, nb_inscrits from session_form where close = 0";
                 
-                // Toutes les sessions
-                req = "select libelleform, niveauform, s.datedebut, nb_places, nb_inscrits";
-                req += "from session_form ";
-//                req += "where s.libelleform = f.libelle and s.niveauform = f.niveau ";
-                // et date supérieure à la date du jour
-                btnInscription.setVisible(false); // On rend le bouton inscription non visible
-            }
-            else
-            {
-                // Sélection des sessions "autorisées"
-                req = "select niveauform, datedebut, nb_places, nb_inscrits";
-                req += "from session_form";
-                req += "where libelleform = '" + cmbSessionAchevee.getSelectedItem() + "' ";
-//                req += "and p.matricule = c.matricule and nb_places > nb_inscrits ";
-//                req += "and p.libelle_form = f.libelle and p.niveau = f.niveau ";
-//                req += "and s.libelleform = f.libelle and s.niveauform = f.niveau ";
-                // et date supérieure à la date du jour
-                req += "and close = 0 and effectue = 0 and s.numero Not In ";
-                req += "(Select num_session From inscription Where matricule = '" + cmbSessionAchevee.getSelectedItem() + "')";
-                if (tableRentabilite.getValueAt(tableRentabilite.getSelectedRow(), 0) != null) //Si la cellule sélectionnée est vide
-                {
-                    btnInscription.setVisible(false); // On rend le bouton inscription non visible
-                }
-            }
             stmt1 = GestionBdd.connexionBdd(GestionBdd.TYPE_MYSQL, "formarmor","localhost", "root","");
             ResultSet rs2 = GestionBdd.envoiRequeteLMD(stmt1, req);
-            ResultSet rs3 = null;
-            
             k = 0;
-            try
+            while(rs2.next())
             {
-                while(rs2.next())
+                for (j=0;j<(tableDeRentabilite.getColumnCount());j++)
                 {
-//                    if (k==0 && cmbSessionAchevee.getSelectedIndex()!=0)
-//                    {
-//                        jLabel3.setText("Sessions autorisées pour : " + rs2.getString(1));
-//                    }
-                    // On calcule la marge et on renseigne la dernière colonne(7ème) du jTable
-                    req = "Select sum(taux_horaire) as revenu_session ";
-                    req += "from statut st, session_form s, client c, inscription i ";
-                    req += "where s.numero = i.num_session and c.matricule = i.matricule ";
-                    req += "and c.typestatut = st.type and s.numero = " + rs2.getInt(2);
-                    stmt2 = GestionBdd.connexionBdd(GestionBdd.TYPE_MYSQL, "formarmor","localhost", "root","");
-                    rs3 = GestionBdd.envoiRequeteLMD(stmt2, req);
-                    rs3.first();
-                    tableRentabilite.setValueAt((rs3.getFloat(1) - rs2.getFloat(9)), k, 7);
-                    // On renseigne le reste du jTable
-                    for (j=0;j<(tableRentabilite.getColumnCount() -1);j++)
-                    {
-                        tableRentabilite.setValueAt(rs2.getObject(j+2), k, j);
-                    }
-                    k++;
+                    tableDeRentabilite.setValueAt(rs2.getObject(j+1), k, j);
                 }
-                rs2.close();
+                k++;
             }
-            catch (SQLException sqle)
-            {
-                System.out.print("Erreur SQL : " + sqle.getMessage());
-            }
+            rs2.close();
+            
         }
         catch(NullPointerException npe)
         {
@@ -273,11 +229,10 @@ try
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnInscription;
     private javax.swing.JComboBox cmbSessionAchevee;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable tableRentabilite;
+    private javax.swing.JTable tableDeRentabilite;
     // End of variables declaration//GEN-END:variables
 }
