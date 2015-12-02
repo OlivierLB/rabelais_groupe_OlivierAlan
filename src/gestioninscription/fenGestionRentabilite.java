@@ -37,10 +37,11 @@ public class fenGestionRentabilite extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        cmbSessionAchevee = new javax.swing.JComboBox();
+        cmbSession = new javax.swing.JComboBox();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableDeRentabilite = new javax.swing.JTable();
+        btnDetail = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -59,11 +60,21 @@ public class fenGestionRentabilite extends javax.swing.JFrame {
         jLabel1.setMinimumSize(new java.awt.Dimension(396, 37));
         jLabel1.setPreferredSize(new java.awt.Dimension(396, 37));
 
-        cmbSessionAchevee.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbSession.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbSession.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cmbSessionItemStateChanged(evt);
+            }
+        });
+        cmbSession.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbSessionActionPerformed(evt);
+            }
+        });
 
         jLabel2.setText("Session achevée :");
 
-        tableDeRentabilite.setModel(new ModeleJTableListeSession());
+        tableDeRentabilite.setModel(new modeleRentabilite());
         tableDeRentabilite.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tableDeRentabiliteMouseClicked(evt);
@@ -78,6 +89,13 @@ public class fenGestionRentabilite extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tableDeRentabilite);
 
+        btnDetail.setText("Detail");
+        btnDetail.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDetailActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -89,9 +107,11 @@ public class fenGestionRentabilite extends javax.swing.JFrame {
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 450, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jLabel2)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btnDetail, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(26, 26, 26)
-                        .addComponent(cmbSessionAchevee, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(cmbSession, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(56, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
@@ -106,9 +126,11 @@ public class fenGestionRentabilite extends javax.swing.JFrame {
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cmbSessionAchevee, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cmbSession, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
-                .addContainerGap(298, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 207, Short.MAX_VALUE)
+                .addComponent(btnDetail, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(56, 56, 56))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(110, 110, 110)
@@ -128,11 +150,11 @@ try
                 // Liste des clients qui "ont un plan de formation"
                 String req = "select distinct libelleform from session_form ";
                 ResultSet rs = GestionBdd.envoiRequeteLMD(stmt1,req);
-                cmbSessionAchevee.removeAllItems();
-                cmbSessionAchevee.addItem("---");
+                cmbSession.removeAllItems();
+                cmbSession.addItem("---");
                 while (rs.next())
                 {
-                    cmbSessionAchevee.addItem(rs.getString(1));
+                    cmbSession.addItem(rs.getString(1));
                 }
             }
             catch (SQLException se)
@@ -150,12 +172,42 @@ try
     }//GEN-LAST:event_formWindowActivated
 
     private void tableDeRentabiliteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableDeRentabiliteMouseClicked
-        
+        if (cmbSession.getSelectedIndex()>0 && tableDeRentabilite.getValueAt(tableDeRentabilite.getSelectedRow(), 0) != null)
+        {
+            btnDetail.setText("Detail pour la session " + tableDeRentabilite.getValueAt(tableDeRentabilite.getSelectedRow(), 0) );
+            btnDetail.setVisible(true);
+        }
+        else
+        {
+            btnDetail.setVisible(false);
+        }
     }//GEN-LAST:event_tableDeRentabiliteMouseClicked
 
     private void tableDeRentabiliteInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_tableDeRentabiliteInputMethodTextChanged
         //
     }//GEN-LAST:event_tableDeRentabiliteInputMethodTextChanged
+
+    private void cmbSessionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbSessionActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmbSessionActionPerformed
+
+    private void cmbSessionItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbSessionItemStateChanged
+        if (evt.getStateChange() != 1) // Pour éviter le déclenchement sur la création de la fenêtre
+        {
+            try {
+                renseigne();
+            } catch (SQLException ex) {
+                Logger.getLogger(fenGestionRentabilite.class.getName()).log(Level.SEVERE, null, ex);
+            }
+		
+        }
+    }//GEN-LAST:event_cmbSessionItemStateChanged
+
+    private void btnDetailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDetailActionPerformed
+        FenDetailSession f1 = new FenDetailSession();
+        f1.setSize(1200, 600);
+        f1.setVisible(true);
+    }//GEN-LAST:event_btnDetailActionPerformed
 
     private void renseigne() throws SQLException
     {
@@ -171,8 +223,17 @@ try
                     tableDeRentabilite.setValueAt(null,i,j);
 		}
             }
+           if (cmbSession.getSelectedIndex()==0 || cmbSession.getSelectedItem()== null) // Pas de client de choisi
+            {
+                 req = "select libelleform, niveauform, datedebut, nb_places, nb_inscrits from session_form where close = 1";
+            }
+            else
+            {
+                 req = "select libelleform, niveauform, datedebut, nb_places, nb_inscrits from session_form where libelleform = '" + cmbSession.getSelectedItem() + "'";
+                 req += "and close = 1 ";
+                
+            }
            
-            req = "select libelleform, niveauform, datedebut, nb_places, nb_inscrits from session_form where close = 0";
                 
             stmt1 = GestionBdd.connexionBdd(GestionBdd.TYPE_MYSQL, "formarmor","localhost", "root","");
             ResultSet rs2 = GestionBdd.envoiRequeteLMD(stmt1, req);
@@ -229,7 +290,8 @@ try
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox cmbSessionAchevee;
+    private javax.swing.JButton btnDetail;
+    private javax.swing.JComboBox cmbSession;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;

@@ -10,9 +10,9 @@ package gestioninscription;
  */
 import javax.swing.table.AbstractTableModel;
 
-public class  ModeleJTableListeSession extends AbstractTableModel
+public class  modeleRentabilite extends AbstractTableModel
 {
-	private String[] columnNames = {"Numéro","Libellé","Niveau","Date début","duree","Nombre places","Nombre d'inscrits","marge"};
+	private String[] columnNames = {"Libellé","Niveau","Date début","Nombre places","Nombre d'inscrits"};
 	private Object[][] data=new Object[10][8];
 	public int getColumnCount()
 	{
