@@ -174,7 +174,7 @@ try
     private void tableDeRentabiliteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableDeRentabiliteMouseClicked
         if (cmbSession.getSelectedIndex()>0 && tableDeRentabilite.getValueAt(tableDeRentabilite.getSelectedRow(), 0) != null)
         {
-            btnDetail.setText("Detail pour la session " + tableDeRentabilite.getValueAt(tableDeRentabilite.getSelectedRow(), 0) );
+            btnDetail.setText("Detail pour la session " + tableDeRentabilite.getValueAt(tableDeRentabilite.getSelectedRow(), 1) );
             btnDetail.setVisible(true);
         }
         else
@@ -205,6 +205,7 @@ try
 
     private void btnDetailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDetailActionPerformed
         FenDetailSession f1 = new FenDetailSession();
+        f1.init(tableDeRentabilite.getValueAt(tableDeRentabilite.getSelectedRow(),0));
         f1.setSize(1200, 600);
         f1.setVisible(true);
     }//GEN-LAST:event_btnDetailActionPerformed
@@ -225,11 +226,11 @@ try
             }
            if (cmbSession.getSelectedIndex()==0 || cmbSession.getSelectedItem()== null) // Pas de client de choisi
             {
-                 req = "select libelleform, niveauform, datedebut, nb_places, nb_inscrits from session_form where close = 1";
+                 req = "select numero, libelleform, niveauform, datedebut, nb_places, nb_inscrits from session_form where close = 1";
             }
             else
             {
-                 req = "select libelleform, niveauform, datedebut, nb_places, nb_inscrits from session_form where libelleform = '" + cmbSession.getSelectedItem() + "'";
+                 req = "select numero, libelleform, niveauform, datedebut, nb_places, nb_inscrits from session_form where libelleform = '" + cmbSession.getSelectedItem() + "'";
                  req += "and close = 1 ";
                 
             }

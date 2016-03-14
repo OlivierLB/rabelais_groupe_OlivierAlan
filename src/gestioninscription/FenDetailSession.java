@@ -5,18 +5,70 @@
  */
 package gestioninscription;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import sql.GestionBdd;
+
 /**
  *
  * @author alan
  */
 public class FenDetailSession extends javax.swing.JFrame {
-
+    
+    Statement stmt1 = null;
+    Statement stmt2 = null;
+    String libelle;
+    int numero;
     /**
      * Creates new form FenDetailSession
      */
     public FenDetailSession() {
         initComponents();
     }
+    
+    public void init(Object numSession)
+    {
+        numero = (Integer)numSession;
+        //jLabel2.setText((String)matClient + " " + (Integer)numSession);
+        stmt1 = GestionBdd.connexionBdd(GestionBdd.TYPE_MYSQL, "formarmor", "localhost", "root", "");
+        stmt2 = GestionBdd.connexionBdd(GestionBdd.TYPE_MYSQL, "formarmor", "localhost", "root", "");
+        String req = "Select libelleform, niveauform, datedebut, nb_inscrits, nb_places, nb_absents ";
+        req += "From session_form ";
+        req += "Where numero = " + numero;
+        ResultSet rsSession = GestionBdd.envoiRequeteLMD(stmt1, req);
+        
+        try
+        {
+            rsSession.first();
+            double inscrit = rsSession.getInt("nb_inscrits");
+            double place = rsSession.getInt("nb_places");
+            double taux = Math.round((inscrit / place) * 100);
+            
+            lblLibelle.setText(rsSession.getString("libelleform"));
+            lblNiveau.setText(rsSession.getString("niveauform"));
+            lblDateDebut.setText(rsSession.getString("datedebut"));
+            lblNbPlaces.setText(String.valueOf(rsSession.getInt("nb_places")));
+            lblNbInscrits.setText(String.valueOf(rsSession.getInt("nb_inscrits")));
+            lblNbAbsent.setText(String.valueOf(rsSession.getInt("nb_absents")));
+            lblTauxRemplisage.setText(String.valueOf(taux + " % "));
+            
+            rsSession.close();
+            stmt1.close();
+        }
+        catch(SQLException sqle)
+        {
+            System.out.println("Erreur SQL3 : " + sqle.getMessage());
+        }
+        
+    }
+    
+     private void formWindowOpened(java.awt.event.WindowEvent evt) {                                  
+         
+    }                                 
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -27,25 +79,260 @@ public class FenDetailSession extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        lblLibelle = new javax.swing.JLabel();
+        lblNiveau = new javax.swing.JLabel();
+        lblDateDebut = new javax.swing.JLabel();
+        lblNbPlaces = new javax.swing.JLabel();
+        lblNbInscrits = new javax.swing.JLabel();
+        lblNbAbsents = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tableDetailSession = new javax.swing.JTable();
+        jLabel8 = new javax.swing.JLabel();
+        lblTauxRemplisage = new javax.swing.JLabel();
+        lblNbAbsent = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        lblMarge = new javax.swing.JLabel();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
+        });
+
+        jLabel2.setText("Libelle :");
+
+        jLabel3.setText("Niveau :");
+
+        jLabel4.setText("Date début :");
+
+        jLabel5.setText("Nombres de places :");
+
+        jLabel6.setText("Nombres d'inscrits :");
+
+        jLabel7.setText("Nombres d'abents :");
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Détail de Session");
+
+        lblLibelle.setText("jLabel8");
+
+        lblNiveau.setText("jLabel8");
+
+        lblDateDebut.setText("jLabel9");
+
+        lblNbPlaces.setText("jLabel10");
+
+        lblNbInscrits.setText("jLabel11");
+
+        tableDetailSession.setModel(new modeleDetailSession());
+        tableDetailSession.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableDetailSessionMouseClicked(evt);
+            }
+        });
+        tableDetailSession.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+            }
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+                tableDetailSessionInputMethodTextChanged(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tableDetailSession);
+
+        jLabel8.setText("Taux de remplissage :");
+
+        lblTauxRemplisage.setText("jLabel10");
+
+        lblNbAbsent.setText("jLabel9");
+
+        jLabel9.setText("Marge :");
+
+        lblMarge.setText("jLabel10");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 875, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel8)
+                            .addComponent(jLabel7)
+                            .addComponent(jLabel9))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblLibelle)
+                                    .addComponent(lblNiveau)
+                                    .addComponent(lblDateDebut)
+                                    .addComponent(lblNbPlaces)
+                                    .addComponent(lblNbInscrits)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(lblNbAbsent)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(lblNbAbsents))
+                                    .addComponent(lblTauxRemplisage))
+                                .addGap(18, 18, 18)
+                                .addComponent(jScrollPane1)
+                                .addGap(51, 51, 51))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lblMarge)
+                                .addGap(0, 0, Short.MAX_VALUE)))))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(6, 6, 6)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(31, 31, 31)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(lblLibelle))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(lblNiveau))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel4)
+                            .addComponent(lblDateDebut))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel5)
+                            .addComponent(lblNbPlaces))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel6)
+                            .addComponent(lblNbInscrits))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel7)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(lblNbAbsents)
+                                .addComponent(lblNbAbsent)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel8)
+                            .addComponent(lblTauxRemplisage)))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel9)
+                    .addComponent(lblMarge))
+                .addContainerGap(51, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+        try {
+            renseigne();        // TODO add your handling code here:
+        } catch (SQLException ex) {
+            Logger.getLogger(FenDetailSession.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_formWindowActivated
+
+    private void tableDetailSessionInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_tableDetailSessionInputMethodTextChanged
+        //
+    }//GEN-LAST:event_tableDetailSessionInputMethodTextChanged
+
+    private void tableDetailSessionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableDetailSessionMouseClicked
+        //        if (cmbSession.getSelectedIndex()>0 && tableParticipant.getValueAt(tableParticipant.getSelectedRow(), 0) != null)
+        //        {
+            //            btnDetail.setText("Detail pour la session " + tableParticipant.getValueAt(tableParticipant.getSelectedRow(), 1) );
+            //            btnDetail.setVisible(true);
+            //        }
+        //        else
+        //        {
+            //            btnDetail.setVisible(false);
+            //        }
+    }//GEN-LAST:event_tableDetailSessionMouseClicked
+
+    private void renseigne() throws SQLException
+    {
+        
+        try
+        {
+        // On vide le JTable
+            int j, k;
+            String req;
+            for(int i=0;i<tableDetailSession.getRowCount();i++)
+            {
+                for (j=0;j<tableDetailSession.getColumnCount();j++)
+		{
+                    tableDetailSession.setValueAt(null,i,j);
+		}
+            }
+           
+            stmt1 = GestionBdd.connexionBdd(GestionBdd.TYPE_MYSQL, "formarmor","localhost", "root","");
+            req = "select c.matricule, c.nom, s.numero, s.libelleform, s.niveauform, s.datedebut, i.date_inscription, st.taux_horaire ";
+            req += " from client c, session_form s, inscription i, statut st where c.matricule = i.matricule ";
+            req += "and i.num_session = s.numero and s.numero = " + numero + " ";
+            req += "and c.typestatut = st.type";
+            ResultSet rs2 = GestionBdd.envoiRequeteLMD(stmt1, req);
+            k = 0;
+            req = "select coutrevient ";
+            req += "from formation ";
+            req += "where libelle = '" + lblLibelle + "' ";
+            req += "and niveau = '" + "' ";
+            req += "and p.libelle_form = f.libelle and p.niveau = f.niveau ";
+            req += "and s.libelleform = f.libelle and s.niveauform = f.niveau ";
+            while(rs2.next())
+            {
+                for (j=0;j<(tableDetailSession.getColumnCount());j++)
+                {
+                    tableDetailSession.setValueAt(rs2.getObject(j+1), k, j);
+                }
+                k++;
+                ResultSet rs3 = null;
+                req = "Select sum(taux_horaire) as revenu_session ";
+                req += "from statut st, session_form s, client c, inscription i ";
+                req += "where s.numero = i.num_session and c.matricule = i.matricule ";
+                req += "and c.typestatut = st.type and s.numero = " + 9;
+                stmt2 = GestionBdd.connexionBdd(GestionBdd.TYPE_MYSQL, "formarmor","localhost", "root","");
+                rs3 = GestionBdd.envoiRequeteLMD(stmt2, req);
+                rs3.first();
+                lblMarge.setText(String.valueOf(rs3.getInt("revenu_session")));
+            }
+//            ResultSet rs3 = null;
+//            req = "Select sum(taux_horaire) as revenu_session ";
+//            req += "from statut st, session_form s, client c, inscription i ";
+//            req += "where s.numero = i.num_session and c.matricule = i.matricule ";
+//            req += "and c.typestatut = st.type and s.numero = " + rs2.getInt(2);
+//            stmt2 = GestionBdd.connexionBdd(GestionBdd.TYPE_MYSQL, "formarmor","localhost", "root","");
+//            rs3 = GestionBdd.envoiRequeteLMD(stmt2, req);
+//            lblMarge.setText(String.valueOf(rs3.getInt("revenu_session")));
+//            rs2.close();
+            
+            
+        }
+        catch(NullPointerException npe)
+        {
+            System.out.println("Erreur : " + npe.getMessage());
+        }
+    }
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -79,5 +366,25 @@ public class FenDetailSession extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblDateDebut;
+    private javax.swing.JLabel lblLibelle;
+    private javax.swing.JLabel lblMarge;
+    private javax.swing.JLabel lblNbAbsent;
+    private javax.swing.JLabel lblNbAbsents;
+    private javax.swing.JLabel lblNbInscrits;
+    private javax.swing.JLabel lblNbPlaces;
+    private javax.swing.JLabel lblNiveau;
+    private javax.swing.JLabel lblTauxRemplisage;
+    private javax.swing.JTable tableDetailSession;
     // End of variables declaration//GEN-END:variables
 }
