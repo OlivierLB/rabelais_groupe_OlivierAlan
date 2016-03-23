@@ -1,0 +1,1 @@
+select numero, libelleform, niveauform, datedebut, nb_places, nb_inscrits, c.matricule, nom, typestatut, rue, cp, ville from session_form s, inscription i, client c where s.numero = i.num_session and i.matricule = c.matricule and s.numero = 9

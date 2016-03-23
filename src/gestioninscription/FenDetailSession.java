@@ -33,8 +33,8 @@ public class FenDetailSession extends javax.swing.JFrame {
     {
         numero = (Integer)numSession;
         //jLabel2.setText((String)matClient + " " + (Integer)numSession);
-        stmt1 = GestionBdd.connexionBdd(GestionBdd.TYPE_MYSQL, "formarmor", "localhost", "root", "");
-        stmt2 = GestionBdd.connexionBdd(GestionBdd.TYPE_MYSQL, "formarmor", "localhost", "root", "");
+        stmt1 = GestionBdd.connexionBdd(GestionBdd.TYPE_MYSQL, "formarmor","localhost", "root","");
+        stmt2 = GestionBdd.connexionBdd(GestionBdd.TYPE_MYSQL, "formarmor","localhost", "root","");
         String req = "Select libelleform, niveauform, datedebut, nb_inscrits, nb_places, nb_absents ";
         req += "From session_form ";
         req += "Where numero = " + numero;

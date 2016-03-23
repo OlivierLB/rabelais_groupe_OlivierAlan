@@ -161,7 +161,7 @@ public class FenInscription extends javax.swing.JFrame {
                 String req = "select distinct c.matricule from client c, plan_formation p "
                  + "where c.matricule = p.matricule order by c.matricule";
                 ResultSet rs = GestionBdd.envoiRequeteLMD(stmt1,req);
-                cmbMatricule.addItem("----");
+                cmbMatricule.addItem("---");
                 while (rs.next())
                 {
                     cmbMatricule.addItem(rs.getString(1));
